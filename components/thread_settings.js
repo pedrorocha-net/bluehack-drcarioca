@@ -5,7 +5,7 @@ module.exports = function (controller) {
 
   debug('Configuring Facebook thread settings...');
   controller.api.messenger_profile.greeting('Olá! Eu sou o Dr. Carioca!');
-  controller.api.messenger_profile.get_started('sample_get_started_payload');
+  controller.api.messenger_profile.get_started('dr_carioca_start');
   controller.api.messenger_profile.menu([{
     "locale": "default",
     "composer_input_disabled": true,

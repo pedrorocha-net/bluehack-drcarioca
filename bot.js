@@ -17,14 +17,15 @@ var os = require('os');
 
 var page_token;
 
-if (os.hostname().indexOf("local") > -1) {
+
+if (os.hostname().indexOf("local") > -1 || os.hostname().indexOf("Olivia") > -1) {
   page_token = process.env.page_token_dev1;
 } else {
   page_token = process.env.page_token;
 }
 
 var controller = Botkit.facebookbot({
-  // debug: true,
+  debug: true,
   receive_via_postback: true,
   verify_token: process.env.verify_token,
   access_token: page_token
