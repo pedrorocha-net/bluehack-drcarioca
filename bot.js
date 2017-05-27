@@ -1,7 +1,7 @@
 var env = require('node-env-file');
 env(__dirname + '/.env');
 
-if (!process.env.page_token) {
+if (!process.env.page_token_prod) {
   console.log('Error: Specify a Facebook page_token in environment.');
   process.exit(1);
 }
@@ -17,14 +17,18 @@ var os = require('os');
 
 var page_token;
 
-if (os.hostname().indexOf("local") > -1) {
-  page_token = process.env.page_token_dev1;
-} else {
-  page_token = process.env.page_token;
+if (os.hostname() == "Olivia") {
+  page_token = process.env.page_token_dev_nicolau;
+}
+else if (os.hostname().indexOf("local") > -1) {
+  page_token = process.env.page_token_dev_pedro;
+}
+else {
+  page_token = process.env.page_token_prod;
 }
 
 var controller = Botkit.facebookbot({
-  // debug: true,
+  debug: true,
   receive_via_postback: true,
   verify_token: process.env.verify_token,
   access_token: page_token
