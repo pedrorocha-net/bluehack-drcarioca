@@ -1,14 +1,14 @@
 var env = require('node-env-file');
 env(__dirname + '/.env');
 
-if (!process.env.page_token) {
-  console.log('Error: Specify a Facebook page_token in environment.');
-  process.exit(1);
+if (!process.env.page_token_prod) {
+    console.log('Error: Specify a Facebook page_token in environment.');
+    process.exit(1);
 }
 
 if (!process.env.verify_token) {
-  console.log('Error: Specify a Facebook verify_token in environment.');
-  process.exit(1);
+    console.log('Error: Specify a Facebook verify_token in environment.');
+    process.exit(1);
 }
 
 var Botkit = require('botkit');
@@ -17,18 +17,21 @@ var os = require('os');
 
 var page_token;
 
-
-if (os.hostname().indexOf("local") > -1 || os.hostname().indexOf("Olivia") > -1) {
-  page_token = process.env.page_token_dev1;
-} else {
-  page_token = process.env.page_token;
+if (os.hostname() == "Olivia") {
+    page_token = process.env.page_token_dev_nicolau;
+}
+else if (os.hostname().indexOf("local") > -1) {
+    page_token = process.env.page_token_dev_pedro;
+}
+else {
+    page_token = process.env.page_token_prod;
 }
 
 var controller = Botkit.facebookbot({
-  debug: true,
-  receive_via_postback: true,
-  verify_token: process.env.verify_token,
-  access_token: page_token
+    debug: true,
+    receive_via_postback: true,
+    verify_token: process.env.verify_token,
+    access_token: page_token
 });
 
 // Set up an Express-powered webserver to expose oauth and webhook endpoints
@@ -49,5 +52,5 @@ require(__dirname + '/components/plugin_dashbot.js')(controller);
 
 var normalizedPath = require("path").join(__dirname, "skills");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
-  require("./skills/" + file)(controller);
+    require("./skills/" + file)(controller);
 });
