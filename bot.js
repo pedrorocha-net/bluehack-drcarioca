@@ -23,13 +23,11 @@ env(__dirname + '/.env');
 
 if (!process.env.page_token) {
     console.log('Error: Specify a Facebook page_token in environment.');
-    usage_tip();
     process.exit(1);
 }
 
 if (!process.env.verify_token) {
     console.log('Error: Specify a Facebook verify_token in environment.');
-    usage_tip();
     process.exit(1);
 }
 
@@ -41,9 +39,7 @@ var controller = Botkit.facebookbot({
     // debug: true,
     receive_via_postback: true,
     verify_token: process.env.verify_token,
-    access_token: process.env.page_token,
-    studio_token: process.env.studio_token,
-    studio_command_uri: process.env.studio_command_uri,
+    access_token: process.env.page_token_dev1
 });
 
 // Set up an Express-powered webserver to expose oauth and webhook endpoints
@@ -101,14 +97,4 @@ if (process.env.studio_token) {
     console.log('~~~~~~~~~~');
     console.log('NOTE: Botkit Studio functionality has not been enabled');
     console.log('To enable, pass in a studio_token parameter with a token from https://studio.botkit.ai/');
-}
-
-function usage_tip() {
-    console.log('~~~~~~~~~~');
-    console.log('Botkit Studio Starter Kit');
-    console.log('Execute your bot application like this:');
-    console.log('page_token=<MY PAGE TOKEN> verify_token=<MY VERIFY TOKEN> studio_token=<MY BOTKIT STUDIO TOKEN> node bot.js');
-    console.log('Get Facebook token here: https://developers.facebook.com/docs/messenger-platform/implementation')
-    console.log('Get a Botkit Studio token here: https://studio.botkit.ai/')
-    console.log('~~~~~~~~~~');
 }
