@@ -1,31 +1,36 @@
 var debug = require('debug')('botkit:thread_settings');
 
 
+module.exports = function (controller) {
 
-module.exports = function(controller) {
-
-    debug('Configuring Facebook thread settings...');
-    controller.api.messenger_profile.greeting('Olá! Eu sou o Dr. Carioca!');
-    controller.api.messenger_profile.get_started('sample_get_started_payload');
-    controller.api.messenger_profile.menu([{
-        "locale":"default",
-        "call_to_actions": [
-            {
-                "type": "postback",
-                "title": "Hello",
-                "payload": "hello"
-            },
-            {
-                "type": "postback",
-                "title": "Help",
-                "payload": "help"
-            },
-            {
-                "type": "web_url",
-                "title": "Botkit Docs",
-                "url": "https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
-            }
-        ]
-    }]);
+  debug('Configuring Facebook thread settings...');
+  controller.api.messenger_profile.greeting('Olá! Eu sou o Dr. Carioca!');
+  controller.api.messenger_profile.get_started('sample_get_started_payload');
+  controller.api.messenger_profile.menu([{
+    "locale": "default",
+    "composer_input_disabled": true,
+    "call_to_actions": [{
+      "title": "My Account",
+      "type": "nested",
+      "call_to_actions": [{
+        "title": "Pay Bill",
+        "type": "postback",
+        "payload": "PAYBILL_PAYLOAD"
+      }, {
+        "title": "History",
+        "type": "postback",
+        "payload": "HISTORY_PAYLOAD"
+      }, {
+        "title": "Contact Info",
+        "type": "postback",
+        "payload": "CONTACT_INFO_PAYLOAD"
+      }]
+    }, {
+      "type": "web_url",
+      "title": "Latest News",
+      "url": "http://petershats.parseapp.com/hat-news",
+      "webview_height_ratio": "full"
+    }]
+  }, {"locale": "pt_BR", "composer_input_disabled": false}]);
 
 }
