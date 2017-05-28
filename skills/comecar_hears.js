@@ -12,15 +12,3 @@ module.exports = function(controller) {
 
 };
 
-// module.exports = function(controller) {
-//     controller.on('message_delivered', function(bot, message){
-//
-//       if(message.hasOwnProperty('greeting')){
-//             bot.reply(message, "Habemus greetings!");
-//       };
-//
-//
-//       }
-//   );
-//
-// };
