@@ -32,6 +32,48 @@ module.exports = function (controller, middleware) {
               enviouText = true;
 
               bot.reply(message, local);
+
+
+              var unidade = {
+                "title": 'Titulo',
+                "image": {
+                  "src": 'https://dev-dr-carioca.pantheonsite.io/sites/default/files/upa_madureira.jpg'
+                },
+                "rua": 'Rua',
+                "neighbourhood": 'Bairro'
+              };
+
+              var unidades = {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                      {
+                        "title": unidade.title,
+                        "image_url": unidade.image.src,
+                        "subtitle": unidade.rua + unidade.neighbourhood,
+                        "default_action": {
+                          "type": "web_url",
+                          "url": "http://dev-dr-carioca.pantheonsite.io/",
+                          "messenger_extensions": true,
+                          "webview_height_ratio": "tall",
+                          "fallback_url": "http://dev-dr-carioca.pantheonsite.io/"
+                        },
+                        "buttons": [
+                          {
+                            "type": "web_url",
+                            "url": "http://dev-dr-carioca.pantheonsite.io/",
+                            "title": "Ver direções"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              };
+
+              bot.reply(message, unidades);
             }
 
           });

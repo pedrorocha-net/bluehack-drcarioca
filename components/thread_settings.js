@@ -6,6 +6,11 @@ module.exports = function (controller) {
   debug('Configuring Facebook thread settings...');
   controller.api.messenger_profile.greeting('Olá, eu sou o Dr. Carioca!');
   controller.api.messenger_profile.get_started('dr_carioca_start');
+  controller.api.messenger_profile.domain_whitelist("https://dev-dr-carioca.pantheonsite.io/");
+  controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
+    console.log('****** Whitelisted domains :', data);
+  });
+
 
   // controller.api.messenger_profile.menu([{
   //   "locale": "default",
