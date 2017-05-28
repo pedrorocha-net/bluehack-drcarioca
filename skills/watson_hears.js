@@ -1,8 +1,24 @@
-/**
- * Created by oliviaws on 28/05/2017.
- */
-module.exportsv= function(controller) {
-    controller.hears('(.*)', 'message_received', function (bot, message) {
+module.exports = function (controller, middleware) {
+
+  controller.hears(['.*'], ['message_received', 'direct_message', 'direct_mention', 'mention'], function (bot, message) {
+
+    middleware.interpret(bot, message, function (err) {
+      console.log(message);
+      if (!err)
+
+        var intents = message.watsonData.intents;
+        var entities = message.watsonData.entities;
+
+        switch(intents) {
+
+
+
+        }
+
+
         bot.reply(message, message.watsonData.output.text.join('\n'));
     });
+
+  });
+
 };

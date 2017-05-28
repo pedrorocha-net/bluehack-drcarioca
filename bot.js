@@ -14,6 +14,12 @@ if (!process.env.verify_token) {
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
 var os = require('os');
+var middleware = require('botkit-middleware-watson')({
+  username: process.env.CONVERSATION_USERNAME,
+  password: process.env.CONVERSATION_PASSWORD,
+  workspace_id: process.env.WORKSPACE_ID,
+  version_date: '2016-09-20'
+});
 
 var page_token;
 
@@ -52,5 +58,5 @@ require(__dirname + '/components/plugin_dashbot.js')(controller);
 
 var normalizedPath = require("path").join(__dirname, "skills");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
-    require("./skills/" + file)(controller);
+    require("./skills/" + file)(controller, middleware);
 });
