@@ -32,48 +32,6 @@ module.exports = function (controller, middleware) {
               enviouText = true;
 
               bot.reply(message, local);
-
-
-              var unidade = {
-                "title": 'Titulo',
-                "image": {
-                  "src": 'https://dev-dr-carioca.pantheonsite.io/sites/default/files/upa_madureira.jpg'
-                },
-                "rua": 'Rua',
-                "neighbourhood": 'Bairro'
-              };
-
-              var unidades = {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "generic",
-                    "elements": [
-                      {
-                        "title": unidade.title,
-                        "image_url": unidade.image.src,
-                        "subtitle": unidade.rua + unidade.neighbourhood,
-                        "default_action": {
-                          "type": "web_url",
-                          "url": "http://dev-dr-carioca.pantheonsite.io/",
-                          "messenger_extensions": true,
-                          "webview_height_ratio": "tall",
-                          "fallback_url": "http://dev-dr-carioca.pantheonsite.io/"
-                        },
-                        "buttons": [
-                          {
-                            "type": "web_url",
-                            "url": "http://dev-dr-carioca.pantheonsite.io/",
-                            "title": "Ver direções"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              };
-
-              bot.reply(message, unidades);
             }
 
           });
@@ -88,35 +46,22 @@ module.exports = function (controller, middleware) {
 
   });
 
-  controller.on('facebook_postback', function (bot, message) {
-    console.log('RECEIVED POSTBACK');
-    // console.log(bot);
-    // console.log(message);
-    console.log(111);
-    if (message.payload == 'chocolate') {
-      bot.reply(message, 'You ate the chocolate cookie!')
-    }
+  controller.on('message_received', function (bot, message) {
+    console.log('RECEBI O POSTBACK');
+    if (message.attachments[0].type === 'location') {
+      console.log(message.attachments[0].payload.coordinates.lat);
+      console.log(message.attachments[0].payload.coordinates.long);
 
+      require('request')({
+        url: 'http://dev-dr-carioca.pantheonsite.io/api/unidades',
+        json: true
+      }, function (err, res, json) {
+        if (err) {
+          throw err;
+        }
+        console.log(json);
+      });
+    }
   });
 
-  // controller.on('facebook_postback', function (response, b) {
-  //
-  //   // var imagem_ret = {
-  //   //   "attachment": {
-  //   //     "type": "template",
-  //   //     "payload": {
-  //   //       "template_type": "generic",
-  //   //       "elements": {
-  //   //         "element": {
-  //   //           "title": "Your current location",
-  //   //           "image_url": "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center=" + lat + "," + long + "&zoom=25&markers=" + lat + "," + long,
-  //   //           "item_url": "http:\/\/maps.apple.com\/maps?q=" + lat + "," + long + "&z=16"
-  //   //         }
-  //   //       }
-  //   //     }
-  //   //   }
-  //   // };
-  //
-  // });
-
-};
+}
